@@ -1,16 +1,52 @@
 # StudySync
 
-StudySync is a student planner for tracking classes, estimating GPA, and keeping assignment due dates in view. It uses Supabase Auth and Postgres; each student's rows are protected with row-level security.
+StudySync is a student planner for tracking classes, estimating GPA, and keeping assignment due dates in view. It uses Supabase Auth and Postgres; row-level security ensures each student can access only their own data.
 
 ## Run locally
 
-1. Create a Supabase project.
-2. In the Supabase SQL editor, run `supabase/schema.sql`.
-3. Copy `.env.example` to `.env.local` and fill in the project URL and anon/publishable key from Supabase project settings.
-4. In Supabase Authentication settings, enable email/password sign-in and set the local site URL to `http://localhost:5173`.
-5. Run `npm install`, then `npm run dev`.
+### Prerequisites
 
-The anon key is intended for browser use when row-level security is enabled. Never put a Supabase service-role key in the frontend.
+- Node.js and npm
+- A Supabase project
+
+### Configure Supabase
+
+1. In the Supabase SQL Editor for your project, run the contents of [`supabase/schema.sql`](./supabase/schema.sql). This creates the planner tables and enables row-level security.
+2. In **Project Settings → API** (or **API Keys**), copy the project URL and the anon/public key or publishable key. Do not use a `service_role` or secret key in this browser app.
+3. In **Authentication → Providers**, make sure email/password sign-in is enabled.
+4. In **Authentication → URL Configuration**, set the Site URL to `http://localhost:5173` and add `http://localhost:5173` to the allowed redirect URLs.
+
+### Configure and start the app
+
+From the project directory, create `.env.local` from the example:
+
+```sh
+cp .env.example .env.local
+```
+
+Set the following values in `.env.local` using your own Supabase project details:
+
+```dotenv
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-or-publishable-key
+```
+
+Then install dependencies and start the development server:
+
+```sh
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173). If you change `.env.local` while the server is running, stop and restart `npm run dev` so Vite loads the updated values.
+
+## Troubleshooting
+
+- **Supabase URL/key error:** Check that both `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set in `.env.local`, with no surrounding quotes, then restart the dev server.
+- **Can't sign up or sign in:** Confirm email/password auth is enabled. If email confirmation is required, confirm the message sent to your email before signing in.
+- **Table or permission errors:** Confirm `supabase/schema.sql` ran successfully in the same Supabase project whose URL and key are in `.env.local`.
+
+Never put a Supabase `service_role` or secret key in frontend code or `.env.local` for this app. Vite exposes `VITE_` variables to the browser.
 
 ## GPA
 
