@@ -40,6 +40,12 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173). If you change `.env.local` while the server is running, stop and restart `npm run dev` so Vite loads the updated values.
 
+## Deploy to GitHub Pages
+
+The included GitHub Actions workflow builds the Vite app and publishes `dist` whenever you push to `main`. In your repository, open **Settings → Pages** and set the build and deployment source to **GitHub Actions**. The first deployment runs from the **Actions** tab; subsequent pushes to `main` deploy automatically.
+
+The public landing page works without Supabase configuration. To enable account sign-in on Pages, add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as repository Actions variables or secrets. These values are included in the browser build; only use the Supabase anon/publishable key, never a service-role or secret key. Add your GitHub Pages URL to the allowed redirect URLs in Supabase Authentication settings.
+
 ## Troubleshooting
 
 - **Supabase URL/key error:** Check that both `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set in `.env.local`, with no surrounding quotes, then restart the dev server.
