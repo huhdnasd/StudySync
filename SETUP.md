@@ -1,6 +1,6 @@
 # StudySync
 
-StudySync is a student planner for tracking classes, estimating GPA, and keeping assignment due dates in view. It uses Supabase Auth and Postgres; row-level security ensures each student can access only their own data.
+StudySync is a student planner for tracking classes, estimating GPA, and keeping assignment due dates in view. Visitors see the public home page first; creating an account or signing in is required to access the planner. It uses Supabase Auth and Postgres; row-level security ensures each student can access only their own data.
 
 ## Run locally
 
